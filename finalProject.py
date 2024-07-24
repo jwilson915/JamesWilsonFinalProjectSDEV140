@@ -1,43 +1,33 @@
 #Final Project (Lowe's Survey Questionnaire Form) - James Wilson
 
-#Module 06 Project Status II - This project is still in development, but overall wanted to go ahead and get an early start. 
 
-#This program is a Lowe's Survey Questionnaire Form that will be used to gather statistical information based on Lowe's customer inputs, attributes, attitudes, or actions based on a series of questions listed. The purspose is to gain feedback and see what Lowe's can improve towards it's business based on customer feedback. Therefore, this program will contain a series of questions that will relate towards Lowe's customer actions.
-
-#Overall, I have completed the layout portion of the project. In terms of the order in which the questions will be displayed and users can input their opinions towards Lowe's based on their input.
-
-#However, there is still work that needs to be done in terms of the style in which I want the GUI to appear as. The type of input options related to the questions, such as a dropdown menu, radio buttons, and a checkbox options to gain feedback.
-
+from tkinter import *
+from tkinter.ttk import *
+from tkinter import messagebox
+from tkinter import Toplevel, Tk
 import tkinter as tk
+import tkinter.font as tkFont
 
-#Name Lists
-
-name_list = []
-email_list = []
-age_list = []
-affiliation_list = []
-recommendation_list = []
-experience_list = []
-improvement_list = []
-comment_list = []
 
 #Application 
 app= tk.Tk()
 app.title("Lowe's Survey Form")
-app.geometry("500x500")
+app.geometry("950x400")
+app.configure(background="#305cde")
 
 #Labels 
-name_label = tk.Label(app, text="Name: ")
-email_label = tk.Label(app, text="Email: ")
-age_label = tk.Label(app, text="Age: ")
-affiliation_label = tk.Label(app, text="What is your current affiliation with Lowe's: ")
-recommendation_label = tk.Label(app, text="Would you Recommend other to Lowe's? ")
-experience_label = tk.Label(app, text="How is your experience shopping at Lowe's? ")
-improvement_label = tk.Label(app, text="What would you like to see Lowe's improve on? (Check all that apply) ")
-comment_label = tk.Label(app, text="Any comments or suggestions for this survey")
+heading_label = tk.Label(app, text="Lowe's Survey Form", font=("Ariel, Helvetica, sans-serif", 12), bg="#305cde", fg="#addae6" )
+name_label= tk.Label(app, text="Name: ", font=("Ariel, Helvetica, sans-serif", 12), bg="#305cde", fg="#addae6")
+email_label = tk.Label(app, text="Email: ", font=("Ariel, Helvetica, sans-serif", 12), bg="#305cde", fg="#addae6")
+age_label = tk.Label(app, text="Age: ", font=("Ariel, Helvetica, sans-serif", 12), bg="#305cde", fg="#addae6")
+affiliation_label = tk.Label(app, text="What is your current affiliation with Lowe's: ", font=("Ariel, Helvetica, sans-serif", 12), bg="#305cde", fg="#addae6")
+recommendation_label = tk.Label(app, text="Would you Recommend Lowe's to others? ", font=("Ariel, Helvetica, sans-serif", 12), bg="#305cde", fg="#addae6")
+experience_label = tk.Label(app, text="How was your experience shopping at Lowe's? ", font=("Ariel, Helvetica, sans-serif", 12), bg="#305cde", fg="#addae6")
+improvement_label = tk.Label(app, text="What improvements would you like to see at Lowe's? (Check all that apply) ", font=("Ariel, Helvetica, sans-serif", 12), bg="#305cde", fg="#addae6")
+comment_label = tk.Label(app, text="Any comments or suggestions for this survey", font=("Ariel, Helvetica, sans-serif", 12), bg="#305cde", fg="#addae6")
 
 #Entry Fields
-name_entry = tk.Entry(app)
+name_entry = tk.Entry(app) 
 email_entry = tk.Entry(app)
 age_entry = tk.Entry(app)
 affiliation_entry = tk.Entry(app)
@@ -46,51 +36,137 @@ experience_entry = tk.Entry(app)
 improvement_entry = tk.Entry(app)
 comment_entry = tk.Entry(app)
 
-#Create the submission button
+
+#Create the submission 
 def submission_form():
-    name = name_entry.get()
-    email = email_entry.get()
-    age = age_entry.get()
-    affiliation = affiliation_entry.get() #Will be a Dropdown Menu option
-    recommendation = recommendation_entry.get() #Will be an Input-radio option
-    experience = experience_entry.get() #Will be a Dropdown Menu option
-    improvement = improvement_entry.get() #Will be a checkbox option
-    comment = comment_entry.get() #Will be a comment section option
+    #Empty List
+    survey_results = []
 
-    name_list.append(name)
-    email_list.append(email)
-    age_list.append(age)
-    affiliation_list.append(affiliation)
-    recommendation_list.append(recommendation)
-    experience_list.append(experience)
-    improvement_list.append(improvement)
-    comment_list.append(comment)
+    #Title for Survey Results
+    survey_results.append("Lowe's Survey Results: ")
 
-name_label.grid(row=0, column=0)
-name_entry.grid(row=0, column=1)
 
-email_label.grid(row=1, column=0)
-email_entry.grid(row=1, column=1)
+    #Values of the Survey
+    name = name_entry.get() #Text-entry option
+    email = email_entry.get() #Text-entry option
+    age = age_entry.get() #Text-entry option
+    affiliation = selected_affiliation.get() #Dropdown Menu option
+    recommendation = recommendation_var.get() #Input-radio option
+    experience = selected_affiliation.get() #Dropdown Menu option
+    improvements = [
+        ("Better Service (Both Customer & Pro)", improvement_var1),
+        ("Special Pricing", improvement_var2), 
+        ("Free Delivery & Installation", improvement_var3), 
+        ("Credit Cards (MyLowesRewards, Pro, MVP, Business Rewards, etc.)", improvement_var4), 
+        ("Vendor Seminars on New Products", improvement_var5),
+        ("Contractor Referrals", improvement_var6)
+] 
+    improvement = [text for text, var in improvements if var.get() == 1]#Checkbox option
+    comment = comment_entry.get() #Comment section option
 
-age_label.grid(row=2, column=0)
-age_entry.grid(row=2, column=1)
+    #Add values to the list
+    survey_results.append("Name: ")
+    survey_results.append([name])
+    survey_results.append("E-Mail: ")
+    survey_results.append([email])
+    survey_results.append("Age: ")
+    survey_results.append([age])
+    survey_results.append("Affiliation: ")
+    survey_results.append([affiliation])
+    survey_results.append("Recommendation: ")
+    survey_results.append([recommendation])
+    survey_results.append("Experience: ")
+    survey_results.append([experience])
+    survey_results.append("Improvement: ")
+    survey_results.append([improvement])
+    survey_results.append("Comment: ")
+    survey_results.append([comment])
 
-affiliation_label.grid(row=3, column=0)
-affiliation_entry.grid(row=3, column=1)
+    #Print the Survey List
+    for items in survey_results:
+        print(items)
 
-recommendation_label.grid(row=4, column=0)
-recommendation_entry.grid(row=4, column=1)
+#Submission Button Window
+    submission_button = messagebox.askquestion("Submit", "Are you ready to submit this form!")
+    if submission_button == "yes":
+        thank_you_window = Toplevel(app)
+        thank_you_window.title("Thank You!")
+        Label(thank_you_window, text="Thank you for your Response!").grid()
+    else:
+        messagebox.showerror("Submit No", "Submission Aboarded")
 
-experience_label.grid(row=5, column=0)
-experience_entry.grid(row=5, column=1)
 
-improvement_label.grid(row=6, column=0)
-improvement_entry.grid(row=6, column=1)
+#Heading
+heading_label.grid(row=0, column=1)
 
-comment_label.grid(row=7, column=0)
-comment_entry.grid(row=7, column=1)
+#Name Section
+name_label.grid(row=1, column=1)
+name_entry.grid(row=1, column=2, columnspan=4, sticky= "ew")
 
-submission_button = tk.Button(app, text="Submit", command=submission_form)
-submission_button.grid(row=8, columnspan=2)
-#Run Application
+#Email Section
+email_label.grid(row=2, column=1)
+email_entry.grid(row=2, column=2,  columnspan=4, sticky= "ew")
+
+#Age Section
+age_label.grid(row=4, column=1)
+age_entry.grid(row=4, column=2,  columnspan=4, sticky= "ew")
+
+#Affiliation Section
+affiliation_label.grid(row=7, column=1)
+affiliation_label = ["None", "Customer", "Customer (with Lowe's Card)", "Lowe's Pro Customer or Member", "Employee (Current or Former)"]
+selected_affiliation = tk.StringVar()
+selected_affiliation.set("Select current affiliation")
+affiliation_label = tk.OptionMenu(app, selected_affiliation, *affiliation_label)
+affiliation_label.grid (row=7, column=2,  columnspan=4, sticky= "ew")
+affiliation_label.config (bg="#addae6", fg="#305cde")
+
+#Recommendation Section
+recommendation_label.grid(row=9, column=1)
+recommendation_var = tk.StringVar()
+recommendation_var.set("Yes")
+recommendation_radio1=tk.Radiobutton(app, text="Yes", variable=recommendation_var, value="Yes", bg="#305cde", fg="#addae6")
+recommendation_radio2=tk.Radiobutton(app, text="No", variable=recommendation_var, value="No", bg="#305cde", fg="#addae6")
+recommendation_radio1.grid(row=9, column=2)
+recommendation_radio2.grid(row=10, column=2)
+
+#Experience Section
+experience_label.grid(row=11, column=1)
+experience_label = ["Very Poor", "Poor", "Neutral", "Great", "Excellent"]
+selected_affiliation = tk.StringVar()
+selected_affiliation.set("Select an option")
+experience_label = tk.OptionMenu(app, selected_affiliation, *experience_label)
+experience_label.grid(row=11, column=2, columnspan=4, sticky= "ew")
+experience_label.config (bg="#addae6", fg="#305cde")
+
+#Improvement Section
+improvement_label.grid(row=13, column=1)
+improvement_var1 = tk.IntVar()
+improvement_var2 =tk.IntVar()
+improvement_var3 = tk.IntVar()
+improvement_var4 =tk.IntVar()
+improvement_var5 = tk.IntVar()
+improvement_var6 =tk.IntVar()
+improvement_checkbox1 = tk.Checkbutton(app, text="Better Service (Both Customer & Pro)",  bg="#305cde", fg="#addae6", variable=improvement_var1)
+improvement_checkbox2 = tk.Checkbutton(app, text="Special Pricing",  bg="#305cde", fg="#addae6", variable=improvement_var2)
+improvement_checkbox3 = tk.Checkbutton(app, text="Free Delivery & Installation",  bg="#305cde", fg="#addae6", variable=improvement_var3)
+improvement_checkbox4 = tk.Checkbutton(app, text="Credit Cards (MyLowesRewards, Pro, MVP, Business Rewards, etc.)", bg="#305cde", fg="#addae6",variable=improvement_var4)
+improvement_checkbox5 = tk.Checkbutton(app, text="Vendor Seminars on New Products",  bg="#305cde", fg="#addae6", variable=improvement_var5)
+improvement_checkbox6 = tk.Checkbutton(app, text="Contractor Referrals", bg="#305cde", fg="#addae6", variable=improvement_var6)
+improvement_checkbox1.grid(row=14, column=1)
+improvement_checkbox2.grid(row=14, column=2)
+improvement_checkbox3.grid(row=15, column=1)
+improvement_checkbox4.grid(row=15, column=2)
+improvement_checkbox5.grid(row=16, column=1)
+improvement_checkbox6.grid(row=16, column=2)
+
+
+#Comment Section
+comment_label.grid(row=21, column=1)
+comment_entry.grid(row=21, column=2,  columnspan=4, sticky= "ew")
+
+#Submit Button
+submission_button = tk.Button(app, text="Submit", font=("Ariel, Helvetica, sans-serif", 10), bg="#addae6", fg="#305cde" , height=1, width=100, command=submission_form)
+submission_button.grid(row=23, column=1, columnspan=2)
+
+
 app.mainloop()
